@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mm91</string>
+    <string name="price_type">VNĐ%d</string>
+    <string name="add_product">Add Product</string>
+    <string name="filter_category">Filter By Category</string>
+    <string name="filter_place">Filter By Place</string>
+</resources>
