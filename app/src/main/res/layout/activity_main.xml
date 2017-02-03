@@ -13,13 +13,14 @@
         android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/list_fab"
+        android:id="@+id/list_menu_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/list"
         kyler:backgroundTint="@color/white"
         kyler:fabSize="normal" />
@@ -28,10 +29,9 @@
         android:id="@+id/add_product_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/list_fab"
+        android:layout_above="@id/list_menu_fab"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -41,15 +41,18 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:text="@string/add_product"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_product_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/list_fab"
+            android:layout_above="@id/list_menu_fab"
             android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
             android:src="@drawable/add"
+            android:visibility="gone"
             kyler:backgroundTint="@color/white"
             kyler:fabSize="mini" />
     </LinearLayout>
@@ -60,8 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/add_product_container"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -71,14 +73,17 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:text="@string/filter_category"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/filter_category_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
             android:src="@drawable/category"
+            android:visibility="gone"
             kyler:backgroundTint="@color/white"
             kyler:fabSize="mini" />
     </LinearLayout>
@@ -89,8 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/filter_category_container"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -100,14 +104,17 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:text="@string/filter_place"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/filter_place_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
             android:src="@drawable/place"
+            android:visibility="gone"
             kyler:backgroundTint="@color/white"
             kyler:fabSize="mini" />
     </LinearLayout>
