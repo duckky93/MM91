@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_category_filter"
+    android:id="@+id/activity_add_category"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.duckky.mm91.View.Category.CategoryFilterActivity">
+    android:orientation="vertical"
+    tools:context="com.example.duckky.mm91.View.AddCategory.AddCategoryActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/category_rv"
+    <EditText
+        android:id="@+id/category_name_edt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/category_name"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/text_large" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category_name_edt"
+        android:layout_margin="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/background_border"
+        android:padding="2dp">
+
+        <ImageView
+            android:id="@+id/category_image_imv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/add_image" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,5 +63,4 @@
             android:textSize="@dimen/text_large"
             android:textStyle="bold" />
     </LinearLayout>
-
 </RelativeLayout>

@@ -63,10 +63,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.product_imv) ImageView productImv;
-        @BindView(R.id.name_txt) TextView productName;
-        @BindView(R.id.description_txt) TextView description;
-        @BindView(R.id.local_price_txt) TextView localPrice;
-        @BindView(R.id.tourist_price_txt) TextView touristPrice;
+        @BindView(R.id.name_tv) TextView productName;
+        @BindView(R.id.description_tv) TextView description;
+        @BindView(R.id.local_price_tv) TextView localPrice;
+        @BindView(R.id.tourist_price_tv) TextView touristPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);

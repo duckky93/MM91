@@ -2,16 +2,18 @@ package com.example.duckky.mm91.Entity;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by DuckKy on 1/29/2017.
  */
 
-public class Category {
+public class Category implements Serializable {
     private int id;
     private String categoryName;
-    private Bitmap categoryImage;
+    private String categoryImage;
 
-    public Category(int id, String categoryName, Bitmap categoryImage) {
+    public Category(int id, String categoryName, String categoryImage) {
         this.id = id;
         this.categoryName = categoryName;
         this.categoryImage = categoryImage;
@@ -33,11 +35,11 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public Bitmap getCategoryImage() {
+    public String getCategoryImage() {
         return categoryImage;
     }
 
-    public void setCategoryImage(Bitmap categoryImage) {
+    public void setCategoryImage(String categoryImage) {
         this.categoryImage = categoryImage;
     }
 }

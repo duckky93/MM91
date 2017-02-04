@@ -1,5 +1,6 @@
 package com.example.duckky.mm91.View.Home;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.example.duckky.mm91.Animation.AnimUtils;
 import com.example.duckky.mm91.Animation.Callback;
 import com.example.duckky.mm91.Entity.Product;
+import com.example.duckky.mm91.Utils.Constance;
+import com.example.duckky.mm91.View.Category.CategoryFilterActivity;
 import com.example.duckky.mm91.View.Home.Adapter.ProductAdapter;
 import com.example.duckky.mm91.R;
 
@@ -43,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.list_menu_fab)
     FloatingActionButton fabListMenu;
 
-    @BindView(R.id.filter_category_txt)
+    @BindView(R.id.filter_category_tv)
     TextView tvFilterCategory;
 
-    @BindView(R.id.filter_place_txt)
+    @BindView(R.id.filter_place_tv)
     TextView tvFilterPlace;
 
-    @BindView(R.id.add_product_txt)
+    @BindView(R.id.add_product_tv)
     TextView tvAddProduct;
 
     @BindView(R.id.filter_category_container)
@@ -141,9 +144,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constance.REQUEST_CODE_CATEGORY_FILTER:
+                    //Done category filter
+                    break;
+            }
+        }
+    }
+
     @OnClick(R.id.filter_place_fab)
     public void fabFilterPlaceClick() {
         Toast.makeText(this, "Place", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.filter_category_fab)
+    public void fabFilterCategoryClick() {
+        Intent intent = new Intent(MainActivity.this, CategoryFilterActivity.class);
+        startActivityForResult(intent, Constance.REQUEST_CODE_CATEGORY_FILTER);
     }
 
 }

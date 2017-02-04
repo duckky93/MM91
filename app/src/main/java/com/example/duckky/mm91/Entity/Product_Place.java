@@ -1,10 +1,12 @@
 package com.example.duckky.mm91.Entity;
 
+import java.io.Serializable;
+
 /**
  * Created by DuckKy on 1/29/2017.
  */
 
-public class Product_Place {
+public class Product_Place implements Serializable {
     private int id;
     private int productID;
     private int placeID;

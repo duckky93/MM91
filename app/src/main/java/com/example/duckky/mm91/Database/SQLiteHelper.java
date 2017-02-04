@@ -1,8 +1,15 @@
 package com.example.duckky.mm91.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.duckky.mm91.Entity.Category;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DuckKy on 1/29/2017.
@@ -45,8 +52,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     //=====SQL EXECUTE STRING=======================================================================
     private static final String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "(" +
             KEY_PRODUCT_ID + " INTEGER PRIMARY KEY," +
-            KEY_PRODUCT_NAME + " TEXT, "+
-            KEY_PRODUCT_DESCRIPTION + " TEXT, "+
+            KEY_PRODUCT_NAME + " TEXT, " +
+            KEY_PRODUCT_DESCRIPTION + " TEXT, " +
             KEY_PRODUCT_LOCAL_PRICE + " DOUBLE," +
             KEY_PRODUCT_TOURIST_PRICE + " DOUBLE, " +
             KEY_PRODUCT_IMAGE + " BLOB, " +
@@ -55,19 +62,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TABLE_CATEGORY + "(" +
             KEY_CATEGORY_ID + " INTEGER PRIMARY KEY," +
-            KEY_CATEGORY_NAME + " TEXT, "+
+            KEY_CATEGORY_NAME + " TEXT, " +
             KEY_CATEGORY_IMAGE + " BLOB"
             + ");";
 
     private static final String CREATE_PLACE_TABLE = "CREATE TABLE " + TABLE_PLACE + "(" +
             KEY_PLACE_ID + " INTEGER PRIMARY KEY," +
-            KEY_PLACE_NAME + " TEXT, "+
+            KEY_PLACE_NAME + " TEXT, " +
             KEY_PLACE_IMAGE + " BLOB"
             + ");";
 
     private static final String CREATE_PLACE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT_PLACE + "(" +
             KEY_PRODUCT_PLACE_ID + " INTEGER PRIMARY KEY," +
-            KEY_PRODUCT_PLACE_PRODUCT_ID + " INTEGER NOT NULL, "+
+            KEY_PRODUCT_PLACE_PRODUCT_ID + " INTEGER NOT NULL, " +
             KEY_PRODUCT_PLACE_PLACE_ID + " INTEGER NOT NULL"
             + ");";
 
@@ -100,5 +107,30 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCT_PLACE);
+    }
+
+    public void insertCategory(String categoryName, String imagePath) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_CATEGORY_NAME, categoryName);
+        values.put(KEY_CATEGORY_IMAGE, imagePath);
+        db.insert(TABLE_CATEGORY, null, values);
+    }
+
+    public List<Category> getCategories(){
+        List<Category> categories = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORY;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = Integer.parseInt(cursor.getString(0));
+                String categoryName = cursor.getString(1);
+                String categoryPath = cursor.getString(2);
+                Category category = new Category(id, categoryName, categoryPath);
+                categories.add(category);
+            } while (cursor.moveToNext());
+        }
+        return categories;
     }
 }

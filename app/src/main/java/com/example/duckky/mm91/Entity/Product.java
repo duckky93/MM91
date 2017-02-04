@@ -2,11 +2,13 @@ package com.example.duckky.mm91.Entity;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by DuckKy on 1/29/2017.
  */
 
-public class Product {
+public class Product implements Serializable {
 
     private int id;
     private String productName;
