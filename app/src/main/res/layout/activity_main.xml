@@ -5,12 +5,43 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.duckky.mm91.MainActivity">
+    tools:context="com.example.duckky.mm91.View.Home.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/search_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/search_edt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/search"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_medium" />
+
+        <ImageView
+            android:id="@+id/cancel_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/cancel"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/product_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_container" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/list_menu_fab"

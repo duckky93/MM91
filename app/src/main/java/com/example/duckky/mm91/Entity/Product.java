@@ -1,4 +1,4 @@
-package com.example.duckky.mm91.Database;
+package com.example.duckky.mm91.Entity;
 
 import android.graphics.Bitmap;
 

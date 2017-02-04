@@ -1,4 +1,4 @@
-package com.example.duckky.mm91;
+package com.example.duckky.mm91.View.Home.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.duckky.mm91.Database.Product;
+import com.example.duckky.mm91.Entity.Product;
+import com.example.duckky.mm91.R;
 
 import java.util.List;
 

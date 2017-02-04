@@ -1,4 +1,4 @@
-package com.example.duckky.mm91;
+package com.example.duckky.mm91.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -1,4 +1,4 @@
-package com.example.duckky.mm91;
+package com.example.duckky.mm91.View.Home;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -7,19 +7,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.duckky.mm91.Animation.AnimUtils;
 import com.example.duckky.mm91.Animation.Callback;
-import com.example.duckky.mm91.Database.Product;
+import com.example.duckky.mm91.Entity.Product;
+import com.example.duckky.mm91.View.Home.Adapter.ProductAdapter;
+import com.example.duckky.mm91.R;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.filter_place_container)
     LinearLayout llPlaceContainer;
 
+    @BindView(R.id.cancel_bt)
+    ImageView btCancel;
+
+    @BindView(R.id.search_edt)
+    EditText edtSearch;
+
     ProductAdapter productAdapter;
 
     @Override
@@ -67,33 +78,43 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
 
-    private void initAttribute(){
-        productAdapter = new ProductAdapter(this,new ArrayList<Product>());
+    private void initAttribute() {
+        productAdapter = new ProductAdapter(this, new ArrayList<Product>());
     }
 
-    private void initView(){
+    private void initView() {
         rvProducts.setAdapter(productAdapter);
         rvProducts.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void onShowMenu(boolean show){
+    private void onShowMenu(boolean show) {
 //        llCategoryContainer.setVisibility(show?View.VISIBLE:View.GONE);
 //        llPlaceContainer.setVisibility(show?View.VISIBLE:View.GONE);
 //        llAddProductContainer.setVisibility(show?View.VISIBLE:View.GONE);
-        tvAddProduct.setVisibility(show?View.VISIBLE:View.GONE);
-        tvFilterCategory.setVisibility(show?View.VISIBLE:View.GONE);
-        tvFilterPlace.setVisibility(show?View.VISIBLE:View.GONE);
-        fabAddProduct.setVisibility(show?View.VISIBLE:View.GONE);
-        fabFilterCategory.setVisibility(show?View.VISIBLE:View.GONE);
-        fabFilterPlace.setVisibility(show?View.VISIBLE:View.GONE);
+        tvAddProduct.setVisibility(show ? View.VISIBLE : View.GONE);
+        tvFilterCategory.setVisibility(show ? View.VISIBLE : View.GONE);
+        tvFilterPlace.setVisibility(show ? View.VISIBLE : View.GONE);
+        fabAddProduct.setVisibility(show ? View.VISIBLE : View.GONE);
+        fabFilterCategory.setVisibility(show ? View.VISIBLE : View.GONE);
+        fabFilterPlace.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     boolean show = false;
 
+    @OnTextChanged(R.id.search_edt)
+    protected void onTextChanged(CharSequence text) {
+        btCancel.setVisibility(text.length() > 0 ? View.VISIBLE : View.GONE);
+    }
+
+    @OnClick(R.id.cancel_bt)
+    public void onCancelSearchClick() {
+        edtSearch.setText("");
+    }
+
     @OnClick(R.id.list_menu_fab)
-    public void onListMenuClick(){
+    public void onListMenuClick() {
         show = !show;
-        if(show){
+        if (show) {
             AnimUtils.with(this).load(R.anim.scale_visible).startAnimationWith(tvAddProduct);
             AnimUtils.with(this).load(R.anim.scale_visible).startAnimationWith(tvFilterCategory);
             AnimUtils.with(this).load(R.anim.scale_visible).startAnimationWith(tvFilterPlace);
@@ -105,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     onShowMenu(true);
                 }
             }).startAnimationWith(fabFilterPlace);
-        }else {
+        } else {
             AnimUtils.with(this).load(R.anim.scale_gone).startAnimationWith(tvAddProduct);
             AnimUtils.with(this).load(R.anim.scale_gone).startAnimationWith(tvFilterCategory);
             AnimUtils.with(this).load(R.anim.scale_gone).startAnimationWith(tvFilterPlace);
@@ -121,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.filter_place_fab)
-    public void fabFilterPlaceClick(){
-        Toast.makeText(this,"Place",Toast.LENGTH_SHORT).show();
+    public void fabFilterPlaceClick() {
+        Toast.makeText(this, "Place", Toast.LENGTH_SHORT).show();
     }
 
 }
