@@ -109,6 +109,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCT_PLACE);
     }
 
+    public Category getLastCategory(){
+        Category category = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORY;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToLast()){
+            int id = Integer.parseInt(cursor.getString(0));
+            String categoryName = cursor.getString(1);
+            String categoryPath = cursor.getString(2);
+            category = new Category(id, categoryName, categoryPath);
+        }
+        return category;
+    }
+
     public void insertCategory(String categoryName, String imagePath) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -128,6 +142,23 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 String categoryName = cursor.getString(1);
                 String categoryPath = cursor.getString(2);
                 Category category = new Category(id, categoryName, categoryPath);
+                categories.add(category);
+            } while (cursor.moveToNext());
+        }
+        return categories;
+    }
+
+    public List<Category> getCategoriesWithChosenAlready(){
+        List<Category> categories = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORY;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = Integer.parseInt(cursor.getString(0));
+                String categoryName = cursor.getString(1);
+                String categoryPath = cursor.getString(2);
+                Category category = new Category(id, categoryName, categoryPath, true);
                 categories.add(category);
             } while (cursor.moveToNext());
         }

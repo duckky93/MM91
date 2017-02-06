@@ -10,6 +10,9 @@ public class Constance {
     public static final int REQUEST_CODE_PLACE_FILTER = 200;
     public static final int REQUEST_CODE_ADD_PLACE = 201;
 
-    public static final int REQUEST_CODE_SELECT_PICTURE = 1000;
+    public static final int REQUEST_CODE_SELECT_PICTURE = 1001;
+    public static final int REQUEST_CODE_TAKE_IMAGE = 1002;
+
+    public static final String KEY_CATEGORY = "category";
 
 }

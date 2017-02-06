@@ -1,6 +1,7 @@
 package com.example.duckky.mm91.View.Category.Adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.duckky.mm91.Database.SQLiteHelper;
 import com.example.duckky.mm91.Entity.Category;
 import com.example.duckky.mm91.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,14 +37,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     Context context;
     List<Category> categories;
     LayoutInflater inflater;
-    List<Category> chosenCategories;
     OnAddNewListener onAddNewListener;
 
     public CategoryAdapter(Context context, List<Category> categories) {
         this.context = context;
         this.categories = categories;
         this.inflater = LayoutInflater.from(context);
-        this.chosenCategories = new ArrayList<>();
     }
 
     public void setCategories(List<Category> categories) {
@@ -60,12 +61,32 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void chooseAll() {
-        this.chosenCategories.clear();
-        this.chosenCategories.addAll(this.categories);
+        this.categories = SQLiteHelper.getInstance(context).getCategoriesWithChosenAlready();
+        notifyDataSetChanged();
+    }
+
+    public void unChooseAll() {
+        this.categories = SQLiteHelper.getInstance(context).getCategories();
+        notifyDataSetChanged();
+    }
+
+    private boolean isCategoriesChosenAll() {
+        for (int i = 0; i < categories.size(); i++) {
+            if (!categories.get(i).isChosen()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<Category> getChosenCategories() {
-        return this.chosenCategories;
+        List<Category> chosenCategories = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).isChosen()) {
+                chosenCategories.add(categories.get(i));
+            }
+        }
+        return chosenCategories;
     }
 
     @Override
@@ -107,16 +128,46 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int i) {
         final int position = i - 1;
+        if (holder instanceof HeaderView) {
+            if (categories.size() > 0) {
+                HeaderView mHolder = (HeaderView) holder;
+                mHolder.tvEmpty.setVisibility(View.GONE);
+                if (isCategoriesChosenAll()) {
+                    mHolder.tvSelectAll.setText(context.getString(R.string.deselect_all));
+                    mHolder.tvSelectAll.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            unChooseAll();
+                        }
+                    });
+                } else {
+                    mHolder.tvSelectAll.setText(context.getString(R.string.select_all));
+                    mHolder.tvSelectAll.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            chooseAll();
+                        }
+                    });
+                }
+            }
+        }
         if (holder instanceof NormalView) {
             try {
                 final NormalView mHolder = (NormalView) holder;
                 final Category category = categories.get(position);
-                Picasso.with(context).load(category.getCategoryImage()).centerCrop().into(mHolder.imvCategory);
+                Log.d(TAG, "getCategoryImage: " + category.getCategoryImage());
+                try {
+                    Picasso.with(context).load(Uri.fromFile(new File(category.getCategoryImage()))).centerCrop().fit().into(mHolder.imvCategory);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+                mHolder.cbCategory.setChecked(categories.get(position).isChosen());
                 mHolder.tvCategoryName.setText(categories.get(position).getCategoryName());
                 mHolder.cbCategory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        onChooseCategory(isChecked, position);
+                        categories.get(position).setChosen(isChecked);
+                        notifyDataSetChanged();
                     }
                 });
                 mHolder.view.setOnClickListener(new View.OnClickListener() {
@@ -124,9 +175,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     public void onClick(View v) {
                         //Category Item Clicked
                         mHolder.cbCategory.setChecked(!mHolder.cbCategory.isChecked());
-                        onChooseCategory(mHolder.cbCategory.isChecked(), position);
+                        categories.get(position).setChosen(mHolder.cbCategory.isChecked());
+                        notifyDataSetChanged();
                     }
                 });
+                mHolder.setIsRecyclable(false);
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
@@ -142,16 +195,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             });
-        }
-    }
-
-    private void onChooseCategory(boolean isChoose, int position) {
-        if (isChoose) {
-            chosenCategories.add(categories.get(position));
-        } else {
-            if (chosenCategories.contains(categories.get(position))) {
-                chosenCategories.remove(categories.get(position));
-            }
         }
     }
 
@@ -177,11 +220,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public class HeaderView extends RecyclerView.ViewHolder {
-        View view;
+        @BindView(R.id.empty_tv)
+        TextView tvEmpty;
+        @BindView(R.id.select_all_tv)
+        TextView tvSelectAll;
 
         public HeaderView(View itemView) {
             super(itemView);
-            view = itemView;
             ButterKnife.bind(this, itemView);
         }
     }

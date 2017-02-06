@@ -48,7 +48,7 @@ public class CategoryFilterActivity extends AppCompatActivity implements Categor
         categoryAdapter.setOnAddNewListener(this);
         rvCategory.setAdapter(categoryAdapter);
         rvCategory.setLayoutManager(new LinearLayoutManager(this));
-        categoryAdapter.setCategories(SQLiteHelper.getInstance(this).getCategories());
+        categoryAdapter.setCategories(SQLiteHelper.getInstance(this).getCategoriesWithChosenAlready());
     }
 
     @Override
@@ -57,7 +57,8 @@ public class CategoryFilterActivity extends AppCompatActivity implements Categor
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constance.REQUEST_CODE_ADD_CATEGORY:
-                    categoryAdapter.setCategories(SQLiteHelper.getInstance(CategoryFilterActivity.this).getCategories());
+                    Category category = (Category) data.getSerializableExtra(Constance.KEY_CATEGORY);
+                    categoryAdapter.addNewCategory(category);
                     break;
             }
         }

@@ -12,11 +12,27 @@ public class Category implements Serializable {
     private int id;
     private String categoryName;
     private String categoryImage;
+    private boolean isChosen = false;
 
     public Category(int id, String categoryName, String categoryImage) {
         this.id = id;
         this.categoryName = categoryName;
         this.categoryImage = categoryImage;
+    }
+
+    public Category(int id, String categoryName, String categoryImage, boolean isChosen){
+        this.id = id;
+        this.categoryName = categoryName;
+        this.categoryImage = categoryImage;
+        this.isChosen = isChosen;
+    }
+
+    public boolean isChosen() {
+        return isChosen;
+    }
+
+    public void setChosen(boolean chosen) {
+        isChosen = chosen;
     }
 
     public int getId() {
