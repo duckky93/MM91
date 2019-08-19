@@ -1,33 +1,101 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.duckky.mm91"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 18
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+
     buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    flavorDimensions "app"
+
+    productFlavors {
+        def STRING = "String"
+        def BOOLEAN = "boolean"
+        def APP_NAME = "APP_NAME"
+        def SERVER_BASE_URL = "SERVER_BASE_URL"
+        def DEVELOPER_MODE = "DEVELOPER_MODE"
+        def USE_UXCAM = "USE_UXCAM"
+
+        def xml_string = "string"
+        def xml_app_name = "app_name"
+
+        //environment config here
+
+        mockIntercept {
+            applicationId "com.maxis.dealerapp"
+            versionCode 1
+            versionName '0.0.1'
+            manifestPlaceholders = [fabricApiKey: "d3b33fde237da59c9dda067bd2b388aff358b644"]
+            dimension "app"
+
+            resValue xml_string, xml_app_name, "\"MM91 MockIntercept\""
+            buildConfigField STRING, APP_NAME, "\"MM91 MockIntercept\""
+            buildConfigField STRING, SERVER_BASE_URL, "\"http://mockintercept/\""
+            buildConfigField BOOLEAN, DEVELOPER_MODE, "true"
+            buildConfigField BOOLEAN, USE_UXCAM, "false"
+        }
+
+        production {
+            applicationId "com.maxis.dealerapp"
+            versionCode 2
+            versionName '1.1.51'
+            manifestPlaceholders = [fabricApiKey: "39606d0d168a7a5ba1e4a9107f565050fd024259"]
+            dimension "app"
+
+            resValue xml_string, xml_app_name, "\"mSell\""
+            buildConfigField STRING, APP_NAME, "\"mSell\""
+            buildConfigField STRING, SERVER_BASE_URL, "\"https://google.com.vn/\""
+            buildConfigField BOOLEAN, DEVELOPER_MODE, "false"
+            buildConfigField BOOLEAN, USE_UXCAM, "false"
+        }
+    }
+
+    dexOptions {
+        /**
+         * This allows the dex task to do less work and to only re-dex what changed and merge all the dex files
+         * refer : http://tools.android.com/tech-docs/new-build-system/tips
+         */
+        preDexLibraries = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:+'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:${versions.android.support}"
+    implementation "com.android.support:recyclerview-v7:${versions.android.support}"
+    implementation "com.android.support:design:${versions.android.support}"
+    implementation "com.android.support.constraint:constraint-layout:${versions.android.constraintlayout}"
+    implementation "me.dm7.barcodescanner:zxing:${versions.zxing}"
+    implementation "com.android.support:multidex:${versions.multidex}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
